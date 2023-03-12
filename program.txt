@@ -1,0 +1,244 @@
+//Java program to insert and delete in linked list
+
+public class SinglyLinkedList {
+
+    public ListNode head;
+
+    public class ListNode {
+        public int data;
+        public ListNode next;
+        //constructor of class ListNode
+        public ListNode(int data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+    // function to display element
+    public void display() {
+        ListNode current = head;
+        while (current != null) {
+            System.out.print(current.data + " --> ");
+            current = current.next;
+        }
+        System.out.print("null");
+        System.out.println();
+    }
+
+    //insert first function
+    public void insertFirst(int value) {
+        //  Allocate the Node & Put in the data
+        ListNode newNode = new ListNode(value);
+        /*  Make next of new Node as head */
+        newNode.next = head;
+        /* . Move the head to point to new Node */
+        head = newNode;
+
+
+    }
+    //insert last
+    public void insertLast(int value) {
+        ListNode newNode = new ListNode(value);
+
+        //  If the Linked List is empty, then make the new node as head //
+        if (head == null) {
+            head = newNode;
+            return;
+        }
+        ListNode current = head;
+        // else traverse till the last node
+        while (current.next != null) {
+            current = current.next;
+        }
+        // change the next of last node //
+        current.next = newNode;
+    }
+    //function to deletefirst element in linked list //
+    public ListNode deleteFirst() {
+        if (head == null) {
+            return null;
+        }
+        // Move the head pointer to the next node
+        // ListNode temp = head;
+        head = head.next;
+        // temp.next = null;
+        // return temp;
+        return head;
+    }
+
+    //function to deletelast node in linked list
+    public void deleteLast() {
+        if (head == null) {
+            return;
+        }
+
+        if (head.next == null) {
+            head = null;
+            return;
+        }
+
+        ListNode current = head;
+        ListNode previous = null;
+        //this code ensures that current is one step ahead than previous at last current will point to last node and previous to second last
+        //make next of previous null
+        while (current.next != null) {
+            previous = current;
+            current = current.next;
+        }
+        previous.next = null; // break the chain
+        return;
+    }
+
+    public int count() {
+        ListNode temp = head;
+        int count = 0;
+        while (temp != null) {
+            count++;
+            temp = temp.next;
+        }
+        return count;
+    }
+
+    public int getMiddleNode() {
+        ListNode slowPtr = head;
+        ListNode fastPtr = head;
+
+        while (fastPtr != null && fastPtr.next != null) {
+            slowPtr = slowPtr.next;
+            fastPtr = fastPtr.next.next;
+        }
+        return slowPtr.data;
+    }
+
+    public void reverse() {
+        if (head == null) {
+            return;
+        }
+
+        java.util.Stack<ListNode> nodes = new java.util.Stack<>();
+        ListNode current = head;
+        while (current != null) {
+            nodes.push(current);
+            current = current.next;
+        }
+
+        head = nodes.pop();
+        current = head;
+        current.next = null;
+
+        while (!nodes.isEmpty()) {
+            current.next = nodes.pop();
+            current = current.next;
+            current.next = null;
+        }
+    }
+
+    public void rotateAroundMiddle() {
+        if (head == null || head.next == null) {
+            return;
+        }
+
+        ListNode prevPtr = null;
+        ListNode slowPtr = head;
+        ListNode fastPtr = head;
+
+        while (fastPtr != null && fastPtr.next != null) {
+            prevPtr = slowPtr;
+            slowPtr = slowPtr.next;
+            fastPtr = fastPtr.next.next;
+        }
+
+        ListNode pivotNode = prevPtr;
+        if (fastPtr != null) {
+            pivotNode = pivotNode.next;
+        }
+        ListNode remainder = pivotNode.next;
+        pivotNode.next = null;
+        SinglyLinkedList sll1 = new SinglyLinkedList();
+        sll1.head = head;
+        sll1.reverse();
+        ListNode last = sll1.head;
+        while (last.next != null) {
+            last = last.next;
+        }
+
+        SinglyLinkedList sll2 = new SinglyLinkedList();
+        sll2.head = remainder;
+        sll2.reverse();
+        last.next = sll2.head;
+
+        head = sll1.head;
+    }
+
+
+
+
+    public static void main(String[] args) {
+        SinglyLinkedList sll1 = new SinglyLinkedList();
+        sll1.insertLast(1);
+        sll1.insertLast(2);
+        sll1.insertLast(3);
+        sll1.insertLast(4);
+        // sll1.insertLast(5);
+        // sll1.insertFirst(4);
+        // sll1.insertFirst(8);
+        // sll1.insertLast(5);
+        // sll1.insertLast(3);
+        // sll1.deleteFirst();
+        //  sll1.deleteLast();
+        sll1.display();
+        sll1.getMiddleNode();
+        System.out.println("Count of nodes is " +
+            sll1.count());
+        System.out.println("Middle node is " +
+            sll1.getMiddleNode());
+
+        sll1.rotateAroundMiddle();
+        sll1.display();
+    }
+
+}
+
+
+
+#include<iostream.h>
+#include<conio.h>
+#include<string.h>
+int main()
+{
+char str[50],word[50][10];
+clrscr();
+int i,j=0,count=0;
+cout<<"enter string";
+cin.getline(str,50);
+for(i=0;str[i]!=NULL;i++)
+{
+ if(str[i]==' '||str[i]=='\0')
+ {
+   word[count][j]=NULL;
+   j=0;
+   count++;
+ }
+ else
+ {
+  word[count][j]=str[i];
+  if(str[i+1]==NULL)
+       word[count][j+1]=NULL;
+  j++;
+ }
+}
+/*
+for(i=0;i<=count;i++)
+cout<<word[i]<<endl;
+*/
+for(i=0;i<count/2 ;i++){
+cout<<strrev(word[i])<<" " ;
+cout<<word[count-i]<<" ";
+}
+
+if(count%2==0)
+{
+cout<<strrev(word[i]);
+ }
+ }
+my name is shashank shankar
+ym shankar eman shashank si like this 
